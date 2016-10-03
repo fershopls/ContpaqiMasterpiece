@@ -1,0 +1,5 @@
+/composer.lock
+*.csv
+/support
+/.idea
+/vendor
