@@ -9,7 +9,7 @@ use lib\Data\SettingsManager;
 use Phine\Path\Path;
 
 // Include Modules
-use SUA\Reporter\SUA;
+use SUA\SUA;
 
 // Initialize Variables
 $settings = new SettingsManager(include(Path::join([MASTER_DIR, 'support', 'config.php'])));

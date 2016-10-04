@@ -1,13 +1,13 @@
 <?php
 
-namespace SUA\Reporter;
+namespace SUA;
 
 use lib\Reporter\ReporterInterface;
-use lib\Util\CSV\CSV;
 
-// Import Objects
-use SUA\Reporter\DatabaseFinder;
-use SUA\Reporter\MonthDaysScript;
+// Import Managers & Scripts
+use SUA\Manager\DatabaseManager;
+use SUA\Manager\WorkerPayZoneManager;
+use SUA\Script\MonthDaysScript;
 
 // Import Querys
 use SUA\Query\DatabaseRegPat;
@@ -22,7 +22,7 @@ class SUA extends ReporterInterface {
     {
         $constant = array();
         // Inject available dbs
-        $dbs = $this->import(DatabaseFinder::class, ['nomGenerales'], $this->pdo)->logic();
+        $dbs = $this->import(DatabaseManager::class, ['nomGenerales'], $this->pdo)->logic();
         $this->injectDbs($dbs);
 
         // Days of the month
@@ -89,7 +89,7 @@ class SUA extends ReporterInterface {
     public function dump($result, $cons)
     {
         $csv_rows = [];
-        $zones = $this->import(WorkerPayZone::class);
+        $zones = $this->import(WorkerPayZoneManager::class);
         foreach ($result as $db_slug => $rows)
         {
             foreach ($rows as $row)

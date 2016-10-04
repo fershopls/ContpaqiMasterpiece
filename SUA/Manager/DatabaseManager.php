@@ -1,12 +1,12 @@
 <?php
 
-namespace SUA\Reporter;
+namespace SUA\Manager;
 
 use lib\Reporter\ReporterInterface;
 
 use SUA\Query\DatabaseAvailable;
 
-class DatabaseFinder extends ReporterInterface {
+class DatabaseManager extends ReporterInterface {
 
     public function logic ()
     {

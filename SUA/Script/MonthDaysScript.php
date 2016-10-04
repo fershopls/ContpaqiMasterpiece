@@ -1,6 +1,6 @@
 <?php
 
-namespace SUA\Reporter;
+namespace SUA\Script;
 
 use lib\Reporter\ReporterInterface;
 

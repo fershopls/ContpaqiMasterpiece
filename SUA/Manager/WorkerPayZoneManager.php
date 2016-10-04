@@ -1,13 +1,13 @@
 <?php
 
-namespace SUA\Reporter;
+namespace SUA\Manager;
 
 use lib\Reporter\ReporterInterface;
 
 use SUA\Query\WorkerZone;
 use SUA\Query\WorkerPay;
 
-class WorkerPayZone extends ReporterInterface {
+class WorkerPayZoneManager extends ReporterInterface {
 
     protected $cache = array();
 
