@@ -26,6 +26,7 @@ $app->add(SUA::class);
 // Despegar
 $app->run([
     'regpat' => 'Z3418645100',
+    'date_type' => 'B', // B = BIMESTRAL, M = MENSUAL
     'date_m' => 2,
     'date_y' => 2016
 ]);

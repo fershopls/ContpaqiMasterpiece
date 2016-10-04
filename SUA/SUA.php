@@ -6,6 +6,7 @@ use lib\Reporter\ReporterInterface;
 
 // Import Managers & Scripts
 use SUA\Manager\DatabaseManager;
+use SUA\Manager\WorkerManager;
 use SUA\Manager\WorkerPayZoneManager;
 use SUA\Script\MonthDaysScript;
 
@@ -20,6 +21,11 @@ class SUA extends ReporterInterface {
 
     public function logic ()
     {
+        // Solve parameters
+        $date_time = strtotime('01.'.$this->parameters['date_m'].'.'.$this->parameters['date_y']);
+        $this->parameters['date_beg'] = date("Ymd", $date_time);
+        $this->parameters['date_end'] = date("Ymd", strtotime('+'.($this->parameters['date_type']=="B"?2:1).' month -1 day', $date_time));
+
         $constant = array();
         // Inject available dbs
         $dbs = $this->import(DatabaseManager::class, ['nomGenerales'], $this->pdo)->logic();
@@ -45,9 +51,9 @@ class SUA extends ReporterInterface {
         $dbs_filter = array_keys($dbs_filter);
 
         // Get workers in filtered dbs
-        $workers = $this->query(DatabaseWorkers::class)
+        $workers = $this->import(WorkerManager::class)
             ->injectDbs($dbs_filter)
-            ->execute();
+            ->logic($this->parameters['date_beg'], $this->parameters['date_end']);
 
         // DB > WRK_ID > AUS_INT
         $aus = $this->query(DatabaseWorkersAus::class)

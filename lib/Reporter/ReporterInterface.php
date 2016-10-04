@@ -52,16 +52,19 @@ class ReporterInterface {
     public function injectPdo($classPdo)
     {
         $this->pdo = $classPdo;
+        return $this;
     }
 
     public function injectDbs($arrayDbs)
     {
         $this->dbs = $arrayDbs;
+        return $this;
     }
 
     public function injectParameters($arrayParameters)
     {
         $this->parameters = $arrayParameters;
+        return $this;
     }
 
     // Create CSV-type string using $csv_headers as reference for $csv_rows
