@@ -2,7 +2,8 @@
   "autoload": {
     "psr-4": {
       "lib\\": "lib/",
-      "SUA\\": "SUA/"
+      "SUA\\": "SUA/",
+      "LIR\\": "LIR/"
     }
   },
   "require": {

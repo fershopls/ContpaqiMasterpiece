@@ -8,6 +8,8 @@ use SUA\Query\DatabaseAvailable;
 
 class DatabaseManager extends ReporterInterface {
 
+    protected $database_strings = array();
+
     public function logic ()
     {
         $regs = $this->query(DatabaseAvailable::class)->execute();
@@ -27,9 +29,12 @@ class DatabaseManager extends ReporterInterface {
 
                 // Append only successful connections
                 if ($db_slug && $this->pdo->testConnection($db_slug))
+                {
                     $pdo_dbs[] = $db_slug;
-                else
+                    $this->database_strings[$db_slug] = $db_name;
+                } else {
                     $info[$dbreg]['failed']++;
+                }
             }
             $info[$dbreg]['success'] = $info[$dbreg]['attempts'] - $info[$dbreg]['failed'];
 
@@ -37,6 +42,11 @@ class DatabaseManager extends ReporterInterface {
         }
         // Return existent databases
         return $pdo_dbs;
+    }
+
+    public function getStrings ()
+    {
+        return $this->database_strings;
     }
 
     public function dump()
