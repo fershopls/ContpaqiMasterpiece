@@ -138,3 +138,36 @@ $stuff = $manager->doStuff('Arg1', 2);
 
 #### CSV
 Además de los métodos de inyección e implementación contamos con el método ```createCsv($csv_headers, $csv_rows, $csv_fix_top = [])```.
+
+```$csv_headers``` Más que sólo contener headers este ```array``` marca la pauta y el orden en que serán escritas las columnas de cada fila.
+```php
+$csv_headers = array(
+    "title" => "Título",
+    "content" => "Contenido",
+    "date" => "Fecha"
+);
+```
+
+```$csv_rows``` es un ```array``` que agrupa cada fila a ser insertada en csv.
+
+```php
+$csv_row = array(
+    ["title"=>"Título1", "content"=>"123", "date"=>"20160403"],
+    ["content"=>"456", "date"=>"20160801", "title"=>"Título2"],
+    ["title"=>"Título2", "date"=>"20160801", "content"=>"456", "extra" => "1"],
+);
+```
+
+```$csv_fix_top``` es sólo un ```array``` que se inserta al comienzo del archivo en caso de que se requiera un header de más de una fila.
+
+```return``` Esta función regresa un string csv listo para escribir en un archivo.
+
+En este caso el resultado sería:
+
+```csv
+"Título", "Contenido", "Fecha"
+"Título1", "123", "20160403"
+"Título2", "456", "20160801"
+"Título2", "456", "20160801"
+```
+Sólo se imprimen los valores cuya clave también se encuentra **(cómo clave)** en ```$csv_headers```. Los valores se imprimen en el mismo orden que fueron registrados en ```$csv_headers```.
