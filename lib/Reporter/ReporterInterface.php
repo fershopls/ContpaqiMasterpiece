@@ -16,10 +16,10 @@ class ReporterInterface {
     protected $querys = array();
 
     // Import & inject ObjectClass to use in main ObjectClass
-    public function import ($classObject, $databases = null, $pdo = null, $parameters = null)
+    public function import ($classManager, $databases = null, $pdo = null, $parameters = null)
     {
         /* @var ReporterInterface $object */
-        $object = isset($this->imports[$classObject])?$this->imports[$classObject]:new $classObject;
+        $object = isset($this->imports[$classManager])?$this->imports[$classManager]:new $classManager;
 
         $pdo = $pdo===null?$this->pdo:$pdo;
         $object->injectPdo($pdo);
