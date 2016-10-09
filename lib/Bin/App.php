@@ -16,21 +16,13 @@ class App {
         $this->dbs = $dbs;
     }
 
-    public function add ($classModule)
-    {
-        $this->modules[] = $classModule;
-    }
-
-    public function run($parameters) {
-        foreach ($this->modules as $classModule)
-        {
-            /** @var ReporterInterface $module */
-            $module = new $classModule();
-            $module->injectDbs($this->dbs);
-            $module->injectPdo($this->pdo);
-            $module->injectParameters($parameters);
-            $module->logic();
-        }
+    public function run($classModule, $parameters = array()) {
+        /** @var ReporterInterface $module */
+        $module = new $classModule();
+        $module->injectDbs($this->dbs);
+        $module->injectPdo($this->pdo);
+        $module->injectParameters($parameters);
+        $module->logic();
     }
 
 }

@@ -21,10 +21,8 @@ $pdo = new StackPDO(
 
 // Instance Class
 $app = new App($pdo);
-// Añadir Modulos
-$app->add(LIR::class);
-// Despegar
-$app->run([
+// Time to run
+$app->run(LIR::class, [
     'regpat' => 'Z3418645100',
     'exercise' => '2016',
     'period_type' => 'semanal',

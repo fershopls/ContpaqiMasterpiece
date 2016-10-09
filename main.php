@@ -21,10 +21,9 @@ $pdo = new StackPDO(
 
 // Instance Class
 $app = new App($pdo);
-// Añadir Modulos
-$app->add(SUA::class);
-// Despegar
-$app->run([
+
+// Time to run
+$app->run(SUA::class, [
     'regpat' => 'Z3418645100',
     'date_type' => 'B', // B = BIMESTRAL, M = MENSUAL
     'date_m' => 2,
