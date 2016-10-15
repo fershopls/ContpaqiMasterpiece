@@ -22,7 +22,31 @@ class App {
         $module->injectDbs($this->dbs);
         $module->injectPdo($this->pdo);
         $module->injectParameters($parameters);
-        $module->logic();
+        return $module->logic();
+    }
+
+    // Inject Methods
+    public function injectPdo($classPdo)
+    {
+        $this->pdo = $classPdo;
+        return $this;
+    }
+
+    public function injectDbs($arrayDbs)
+    {
+        $this->dbs = $arrayDbs;
+        return $this;
+    }
+
+    // Retrieve Methods
+    public function getPdo()
+    {
+        return $this->pdo;
+    }
+
+    public function getDbs()
+    {
+        return $this->dbs;
     }
 
 }
