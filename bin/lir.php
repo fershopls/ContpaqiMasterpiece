@@ -7,6 +7,8 @@ use LIR\Bin\LIR;
 
 // Time to run
 $app->run(LIR::class, [
+    'filename' => MASTER_DIR . '/LIR_FILE.csv',
+    
     'regpat' => 'Z3418645100',
     'exercise' => '2016',
     'period_type' => 'semanal',

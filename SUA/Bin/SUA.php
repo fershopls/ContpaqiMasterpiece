@@ -306,7 +306,7 @@ class SUA extends ReporterInterface {
             }
         }
 
-        file_put_contents(MASTER_DIR . '/test.csv', $this->createCsv($this->getCSVHeaders(), $csv_rows, $this->getCSVFix()));
+        file_put_contents($this->parameters['filename'], $this->createCsv($this->getCSVHeaders(), $csv_rows, $this->getCSVFix()));
     }
 
     public function getCSVHeaders()

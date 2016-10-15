@@ -7,6 +7,8 @@ use SUA\Bin\SUA;
 
 // Time to run
 $app->run(SUA::class, [
+    'filename' => MASTER_DIR . '/SUA_FILE.csv',
+    
     'regpat' => 'Z3418645100',
     'date_type' => 'B', // B = BIMESTRAL, M = MENSUAL
     'date_m' => 2,

@@ -159,7 +159,7 @@ class LIR extends ReporterInterface {
             }
         }
 
-        file_put_contents(MASTER_DIR . '/LIR.csv', $this->createCsv($dh->getHeaders(), $csv_rows));
+        file_put_contents($this->parameters['filename'], $this->createCsv($dh->getHeaders(), $csv_rows));
 
     }
 
