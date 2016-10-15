@@ -1,26 +1,10 @@
 <?php
 
-require_once (realpath(__DIR__) . '/bootstrap.php');
-
-// Include App Core
-use lib\Bin\App;
-use lib\Database\StackPDO;
-use lib\Data\SettingsManager;
-use Phine\Path\Path;
+$app = require_once (realpath(__DIR__) . '/bootstrap.php');
 
 // Include Modules
 use LIR\LIR;
 
-// Initialize Variables
-$settings = new SettingsManager(include(Path::join([MASTER_DIR, 'support', 'config.php'])));
-$pdo = new StackPDO(
-    $settings->get('SQLSRV.hosting'),
-    $settings->get('SQLSRV.username'),
-    $settings->get('SQLSRV.password')
-);
-
-// Instance Class
-$app = new App($pdo);
 // Time to run
 $app->run(LIR::class, [
     'regpat' => 'Z3418645100',
