@@ -1,6 +1,6 @@
 <?php
 
-namespace LIR;
+namespace LIR\Bin;
 
 use lib\Reporter\ReporterInterface;
 

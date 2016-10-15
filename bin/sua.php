@@ -1,9 +1,9 @@
 <?php
-
-$app = require_once (realpath(__DIR__) . '/bootstrap.php');
+/* @var \lib\Bin\App $app*/
+$app = require_once(realpath(__DIR__) . '/../bootstrap.php');
 
 // Include Modules
-use SUA\SUA;
+use SUA\Bin\SUA;
 
 // Time to run
 $app->run(SUA::class, [

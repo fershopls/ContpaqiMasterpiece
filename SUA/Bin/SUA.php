@@ -1,6 +1,6 @@
 <?php
 
-namespace SUA;
+namespace SUA\Bin;
 
 use lib\Reporter\ReporterInterface;
 
