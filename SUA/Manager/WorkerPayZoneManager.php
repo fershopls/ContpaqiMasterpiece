@@ -11,7 +11,7 @@ class WorkerPayZoneManager extends ReporterInterface {
 
     protected $cache = array();
 
-    public function get ($db_slug, $db_zone)
+    public function logic ($db_slug, $db_zone)
     {
         if (isset($this->cache[$db_slug][$db_zone])) {
             $pay = $this->cache[$db_slug][$db_zone];

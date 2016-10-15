@@ -102,7 +102,7 @@ class SUA extends ReporterInterface {
             {
                 $date = $row['key']=='B'?'':$row['date'];
                 // SUA
-                $payzone = $zones->get($db_slug, $row['zonasalario']);
+                $payzone = $zones->logic($db_slug, $row['zonasalario']);
 
                 $days = $cons['mdays'];
                 $row['sbc'] = round($row['sbc'], 2);
