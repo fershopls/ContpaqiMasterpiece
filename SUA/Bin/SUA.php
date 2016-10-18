@@ -28,7 +28,8 @@ class SUA extends ReporterInterface {
 
         $constant = array();
         // Inject available dbs
-        $dbs = $this->import(DatabaseManager::class, ['nomGenerales'], $this->pdo)->logic();
+        $databaseManager = $this->import(DatabaseManager::class, ['nomGenerales'], $this->pdo);
+        $dbs = $databaseManager->logic();
         $this->injectDbs($dbs);
 
         // Days of the month
@@ -89,10 +90,10 @@ class SUA extends ReporterInterface {
             }
         }
 
-        $this->dump($workers, $constant);
+        $this->dump($workers, $constant, $databaseManager->getStrings());
     }
 
-    public function dump($result, $cons)
+    public function dump($result, $cons, $db_names)
     {
         $csv_rows = [];
         $zones = $this->import(WorkerPayZoneManager::class);
@@ -144,6 +145,8 @@ class SUA extends ReporterInterface {
                 $total = round($total, 2);
 
                 $csv_row = array(
+                    'db' => $db_slug,
+                    'company' => $db_names[$db_slug],
                     'regpat' => $cons['regpat'],
                     'nss' => $row['numerosegurosocial'],
                     'code' => $row['codigoempleado'],
@@ -226,6 +229,8 @@ class SUA extends ReporterInterface {
                 if ($row['key'] == 'B')
                 {
                     $csv_rows[] = array(
+                        'db' => '',
+                        'company' => '',
                         'regpat' => '',
                         'nss' => '',
                         'code' => '',
@@ -312,6 +317,8 @@ class SUA extends ReporterInterface {
     public function getCSVHeaders()
     {
         return array(
+            'db' => 'Base de Datos',
+            'company' => 'Empresa',
             'regpat' => 'Registro Patronal',
             'nss' => 'Numero Seguro Social',
             'code' => 'Codigo Empleado',
@@ -393,6 +400,8 @@ class SUA extends ReporterInterface {
     public function getCSVFix()
     {
         return array(
+            'db' => '',
+            'company' => '',
             'regpat' => '',
             'nss' => '',
             'code' => '',
