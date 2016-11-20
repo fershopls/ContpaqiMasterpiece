@@ -22,11 +22,10 @@ foreach ($apps as $app_slug => $app_details)
     {
         echo "\n[{$app_slug}] Running with ". json_encode($app_config, JSON_PRETTY_PRINT)."\n";
         $app->run($app_details['class'], $app_config);
+        $requestHandler->delete();
     } else {
         echo "\n[{$app_slug}] Skipping";
     }
-
-    $requestHandler->delete();
 }
 
 
