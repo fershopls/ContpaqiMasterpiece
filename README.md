@@ -97,7 +97,7 @@ El argumento ```$databases``` debe ser un array que contenga en cada elemento un
 $databases = array("Database1", "Database2", "Database3");
 ```
 
-El argumento ```$pdo``` debe ser una clase instanciada de ```lib\Database\StackPDO``` autentificada y lista para usar. En caso de ser nulo se inyectarán las bases de datos de la clase madre.
+El argumento ```$pdo``` debe ser una clase instanciada de ```lib\Database\StackPDO``` autentificada y lista para usar. En caso de ser nulo se inyectará el PDO de la clase madre.
 ```php
 use lib\Database\StackPDO;
 
@@ -125,7 +125,7 @@ $bind_values = array("group_id" => 13);
     la consulta */
     ->execute($bind_values);
 
-/* Manager funciona de la misma manera, con la exepción de
+/* Manager funciona de la misma manera, con la excepción de
 que los parámetros son inyectados */
 $manager = $this->import(MyManager::class)
     ->injectParameters(['otherParams'=>321]);
