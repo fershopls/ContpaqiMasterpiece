@@ -1,0 +1,71 @@
+body {
+    background-color: #e7e7e7;
+    font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#popup {
+    box-shadow: 0 0 20px 3px rgba(170,170,170,0.2);
+    background-color: #fff;
+    width: 550px;
+    margin: 30px auto;
+}
+.content,
+h1,
+h2 {
+    width: 100%;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+h1,
+h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #add8e6;
+    color: #1c4d5d;
+}
+h2 {
+    background-color: #215a6c;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 10px;
+}
+.attribute {
+    margin-bottom: 20px;
+}
+.attribute,
+.attribute .key,
+.attribute .value {
+    width: 100%;
+    box-sizing: border-box;
+}
+.attribute .key {
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+}
+.attribute .value input[type=checkbox] {
+    height: 20px;
+}
+.attribute .value input,
+.attribute .value select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #e7e7e7;
+}
+.half {
+    margin-bottom: 10px;
+}
+.half .key,
+.half .value {
+    display: inline-block;
+    width: 40%;
+}
+.half .value {
+    width: 59%;
+}

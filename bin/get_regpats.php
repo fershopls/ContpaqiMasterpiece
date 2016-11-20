@@ -6,4 +6,13 @@ use SUA\Bin\GetDatabaseRegpat;
 
 $dbs = $app->run(GetDatabaseRegpat::class);
 
-print_r($dbs);
+$result = [];
+foreach ($dbs as $db_slug => $_regpat)
+{
+    foreach ($_regpat as $regpat)
+    {
+        $result[$regpat] = $regpat;
+    }
+}
+
+file_put_contents(MASTER_DIR . '/frontend/regpats.json', json_encode($result, JSON_PRETTY_PRINT));

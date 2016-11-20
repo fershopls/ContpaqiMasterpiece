@@ -20,7 +20,7 @@ foreach ($apps as $app_slug => $app_details)
 
     if ($app_config)
     {
-        echo "\n[{$app_slug}] Running with ". json_encode($app_config, JSON_PRETTY_PRINT);
+        echo "\n[{$app_slug}] Running with ". json_encode($app_config, JSON_PRETTY_PRINT)."\n";
         $app->run($app_details['class'], $app_config);
     } else {
         echo "\n[{$app_slug}] Skipping";
