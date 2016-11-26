@@ -5,6 +5,7 @@ namespace lib\Data;
 class SettingsManager {
 
     protected $settings;
+    protected $binds;
 
     public function __construct($arraySettings)
     {
@@ -31,7 +32,26 @@ class SettingsManager {
                 continue;
             }
         }
-        return ($arrayResult)?$arrayResult:$fallback;
+
+        $arrayResult = ($arrayResult)?$arrayResult:$fallback;
+        return $this->runBinds($indexes, $arrayResult);
+    }
+
+    public function bind ($regex, $callback)
+    {
+        $this->binds[] = ['regex'=>$regex, 'callback'=>$callback];
+    }
+
+    public function runBinds($regex, $property)
+    {
+        foreach ($this->binds as $bind)
+        {
+            if (preg_match($bind['regex'], $regex))
+            {
+                $property = $bind['callback']($property);
+            }
+        }
+        return $property;
     }
 
 }

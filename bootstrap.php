@@ -26,6 +26,15 @@ use Phine\Path\Path;
  * Set-up parameters
  * */
 $settings = new SettingsManager(include(Path::join([MASTER_DIR, 'support', 'config.php'])));
+
+$settings->bind('/^DIRS\.(.*)/', function ($property) {
+    if (is_string($property))
+    {
+        $property = preg_replace("/\%/", MASTER_DIR, $property);
+    }
+    return preg_replace("/([\/\\\\])/", DIRECTORY_SEPARATOR, $property);
+});
+
 $pdo = new StackPDO(
     $settings->get('SQLSRV.hosting'),
     $settings->get('SQLSRV.username'),
