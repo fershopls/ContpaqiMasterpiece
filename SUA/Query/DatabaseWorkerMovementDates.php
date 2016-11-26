@@ -16,6 +16,7 @@ class DatabaseWorkerMovementDates extends QueryInterface {
         $result = [];
         foreach ($query_object as $db_slug => $rows)
         {
+            $result[$db_slug] = array();
             foreach ($rows as $row)
             {
                 $result[$db_slug][] = $row['idempleado'];
