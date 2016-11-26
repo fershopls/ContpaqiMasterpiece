@@ -31,6 +31,11 @@ $settings->bind('/^DIRS\.(.*)/', function ($property) {
     if (is_string($property))
     {
         $property = preg_replace("/\%/", MASTER_DIR, $property);
+
+        if ($property != "" && (!file_exists($property) || !is_dir($property)))
+        {
+            mkdir($property, 0777, true);
+        }
     }
     return preg_replace("/([\/\\\\])/", DIRECTORY_SEPARATOR, $property);
 });
