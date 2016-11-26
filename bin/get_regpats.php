@@ -15,4 +15,4 @@ foreach ($dbs as $db_slug => $_regpat)
     }
 }
 
-file_put_contents(MASTER_DIR . '/frontend/regpats.json', json_encode($result, JSON_PRETTY_PRINT));
+file_put_contents($settings->get('DIRS.cache').'/regpats.json', json_encode($result, JSON_PRETTY_PRINT));

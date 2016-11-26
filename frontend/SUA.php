@@ -1,7 +1,9 @@
 <?php
+require_once realpath(__DIR__) . '/../bootstrap.php';
 
-$REQUESTS_DIRECTORY = 'C:\Users\FershoPls\Google Drive\OpenSource\ReporterInterface\support\request\SUA';
-$AVAILABLE_REGPAT_ARRAY = json_decode(file_get_contents(realpath(__DIR__) . '/regpats.json'), true);
+$REQUESTS_DIRECTORY = $settings->get('DIRS.APPS.SUA', realpath(__DIR__).'/');
+$REGPAT_PATH = $settings->get('DIRS.cache').'/regpats.json';
+$AVAILABLE_REGPAT_ARRAY = file_exists($REGPAT_PATH)?json_decode(file_get_contents($REGPAT_PATH), true):[''];
 
 if ($_POST)
 {
@@ -121,4 +123,4 @@ if ($_POST)
 </form>
 
 </body>
-</html
+</html>
