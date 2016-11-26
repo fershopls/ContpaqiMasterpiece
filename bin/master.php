@@ -16,7 +16,13 @@ foreach ($apps as $app_slug => $app_details)
 
     if ($app_config)
     {
-        echo "\n[{$app_slug}] Running with \n====". json_encode($app_config, JSON_PRETTY_PRINT)."\n====";
+        // Set filename to output file
+        $filename = isset($app_config['filename'])&&$app_config['filename']!=''?'_'.preg_replace("/(\s)/", '_', strtolower($filename)):'';
+        $filename = $app_slug.'_'.date("YmdHis"). $filename .'.csv';
+        $app_config['filename'] = $settings->get('DIRS.output').DIRECTORY_SEPARATOR.$filename;
+
+        // Run app
+        echo "\n[{$app_slug}] Running with \n====\n". json_encode($app_config, JSON_PRETTY_PRINT)."\n====\n";
         $app->run($app_details['class'], $app_config);
         $requestHandler->delete();
     } else {
