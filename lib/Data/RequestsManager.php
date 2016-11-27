@@ -29,9 +29,9 @@ class RequestsManager {
             {
                 if (time() >= $file['assoc'][self::OPEN_MARK] + self::DEATH_TIME)
                 {
-                    echo "\nThis file is dead";
+                    echo "\nThis file is dead ({$file['filepath']}).";
                 }
-                echo "\nSomebody is working with this file";
+                echo "\nThis file was opened previously ({$file['filepath']}).";
             } else {
                 $file['assoc'][self::OPEN_MARK] = time();
                 file_put_contents($file['filepath'], json_encode($file['assoc'], JSON_PRETTY_PRINT));
