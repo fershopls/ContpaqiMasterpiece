@@ -18,6 +18,7 @@ abstract class QueryInterface {
 
         $result = array();
 
+        echo "\n[QUERY] [".get_class($this)."]\n\t{$query}\n";
         foreach ($this->dbs as $db)
         {
             $q = $this->pdo->using($db)->prepare($query);
