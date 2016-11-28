@@ -25,7 +25,6 @@ abstract class QueryInterface {
         {
             $_index++;
             echo "\r[".date("H:i:s")."] ".round($_index/$_total *100)."% [{$_index}/$_total]";
-            sleep(1);
             $q = $this->pdo->using($db)->prepare($query);
             $q->setFetchMode($this->queryFetchMode);
             $q->execute($parameters);
