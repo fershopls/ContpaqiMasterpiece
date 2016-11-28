@@ -19,8 +19,12 @@ abstract class QueryInterface {
         $result = array();
 
         echo "\n[QUERY] [".get_class($this)."]\n\t{$query}\n";
+        $_total = count($this->dbs);
+        $_index = 0;
         foreach ($this->dbs as $db)
         {
+            $_index++;
+            echo "\r".round($_index/$_total *100)."% [{$_index}/$_total]";
             $q = $this->pdo->using($db)->prepare($query);
             $q->setFetchMode($this->queryFetchMode);
             $q->execute($parameters);
