@@ -8,7 +8,7 @@ class DbWorkerDic extends QueryInterface {
 
     public function getQuery ()
     {
-        return "SELECT idempleado, nombrelargo, codigoempleado, bajaimss, campoextra1 FROM nom10001 ORDER BY codigoempleado;";
+        return "SELECT idempleado, nombrelargo, codigoempleado, bajaimss, fechabaja, campoextra1 FROM nom10001 ORDER BY codigoempleado;";
     }
 
     public function handle ($query_object)
