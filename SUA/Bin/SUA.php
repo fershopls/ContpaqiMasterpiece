@@ -149,7 +149,7 @@ class SUA extends ReporterInterface {
                     'company' => $db_names[$db_slug],
                     'regpat' => $cons['regpat'],
                     'nss' => $row['numerosegurosocial'],
-                    'code' => $row['codigoempleado'],
+                    'code' => '#'.$row['codigoempleado'],
                     'name' => $row['nombrelargo'],
                     'rfc' => $row['rfc'],
                     'curp' => $row['curp'],
