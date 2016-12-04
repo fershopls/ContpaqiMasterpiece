@@ -125,7 +125,7 @@ class LIR extends ReporterInterface {
                     $db_worker_dic[$db_slug][$worker_id]['invoice'] =
                         ($db_worker_dic[$db_slug][$worker_id]['bajaimss'] == 1
                             && $db_worker_dic[$db_slug][$worker_id]['fechabaja'] >= $db_period_dic[$db_slug][$period_id]['fechainicio']
-                            && $db_worker_dic[$db_slug][$worker_id]['fechabaja'] <= $db_period_dic[$db_slug][$period_id]['fechafin'])?$db_worker_dic[$db_slug][$worker_id]['campoextra1']:'null';
+                            && $db_worker_dic[$db_slug][$worker_id]['fechabaja'] <= $db_period_dic[$db_slug][$period_id]['fechafin'])?$db_worker_dic[$db_slug][$worker_id]['campoextra1']:'';
 
                     $db_name = isset($dbs_strings[$db_slug])?$dbs_strings[$db_slug]:$db_slug;
                     $csv_rows[$csv_id][$dh->getConceptId('Factura')] = $db_worker_dic[$db_slug][$worker_id]['invoice'];
