@@ -87,6 +87,7 @@ if ($_POST)
                     <div class="key">Periodo</div>
                     <div class="value">
                         <select name="period_type">
+                            <option value="">Todos los Periodos</option>
                             <option value="semanal">Semanal</option>
                             <option value="catorcenal">Catorcenal</option>
                             <option value="mensual">Mensual</option>

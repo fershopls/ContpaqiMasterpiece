@@ -52,22 +52,25 @@ class LIR extends ReporterInterface {
         foreach ($db_worker_dic as $db_slug => $db_workers)
         {
             // Get period type
-            $period_type = $this->parameters['period_type'];
+            $period_type = StringKey::get($this->parameters['period_type']);
             $period_type = array_filter($db_period_type_dic[$db_slug], function ($ob) use ($period_type) {
-                return StringKey::get($ob['nombretipoperiodo']) == StringKey::get($period_type);
+                return StringKey::get($ob['nombretipoperiodo']) == $period_type;
             });
-            // Skip database if don't have `period_type` desired
-            if (count($period_type) == 0 && $this->parameters['period_type']!='')
-                continue;
 
             // Set search parameters
             $params = [
                 'worker_id' => null, // We'll define it later
-                'period_type' => array_values($period_type)[0]['idtipoperiodo'],
                 'date_begin' => $this->parameters['date_begin'],
                 'date_end'   => $this->parameters['date_end'],
                 'exercise'   => $this->parameters['exercise'],
             ];
+
+            // Skip database if don't have `period_type` desired
+            if (count($period_type) == 0 && $this->parameters['period_type']!='')
+                continue;
+
+            if (count($period_type) && $this->parameters['period_type'] != '')
+                $params['period_type'] = array_values($period_type)[0]['idtipoperiodo'];
 
             foreach ($db_workers as $dbw_row)
             {
@@ -79,7 +82,7 @@ class LIR extends ReporterInterface {
 
                 // If `period_type` = '' find any period type
                 $q = $this->pdo->using($db_slug)
-                    ->prepare("SELECT mv.idconcepto, mv.idperiodo, mv.importetotal FROM [nom10007] mv, [nom10002] pr WHERE mv.idempleado = :worker_id AND pr.idperiodo = mv.idperiodo AND pr.fechainicio BETWEEN :date_begin AND :date_end AND pr.ejercicio = :exercise AND mv.importetotal != 0 AND pr.idtipoperiodo = :period_type");
+                    ->prepare("SELECT mv.idconcepto, mv.idperiodo, mv.importetotal FROM [nom10007] mv, [nom10002] pr WHERE mv.idempleado = :worker_id AND pr.idperiodo = mv.idperiodo AND pr.fechainicio BETWEEN :date_begin AND :date_end AND pr.ejercicio = :exercise AND mv.importetotal != 0". (!isset($params['period_type'])?'':" AND pr.idtipoperiodo = :period_type"));
                 $q->execute($params);
 
                 $wmv_rows = $q->fetchAll();
