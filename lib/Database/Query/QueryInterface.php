@@ -18,7 +18,7 @@ abstract class QueryInterface {
 
         $result = array();
 
-        echo "\n[QUERY] [".get_class($this)."]\n[".date("H:is")."] {$query}\n";
+        echo "\n[QUERY] [".get_class($this)."]\n[".date("H:i:s")."] {$query}\n";
         $_total = count($this->dbs);
         $_index = 0;
         foreach ($this->dbs as $db)
