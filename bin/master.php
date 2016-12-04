@@ -31,17 +31,18 @@ foreach ($apps as $app_slug => $app_details)
         $requestHandler->delete();
 
         // Send email..
+        echo "\n\n[MAIL] Sending mail to '{$app_config['email']}'.";
         if ($app_config['email'] != '') {
             $asunto = 'Reporte "'.$app_config['filename'].'" Generado';
             $mensaje = "Su reporte \"{$app_config['filename']}\" se ha generado en \\\\192.168.2.200\\{$app_output_path}\\{$output_filename}.";
-            $cabeceras = 'From: noreply@tsl.com' . "\r\n".
+            $cabeceras = 'From: no-reply@gmail.com' . "\r\n".
                 'Reply-To: desarrollo@global-systems.mx' . "\r\n" .
                 'X-Mailer: PHP/' . phpversion();
 
             if(mail($app_config['email'], $asunto, $mensaje, $cabeceras)) {
-                echo '[MAIL] Sended.';
+                echo "\n[MAIL] Sended.";
             } else {
-                echo '[MAIL] Error.';
+                echo "\n[MAIL] Error.";
             }
         }
 
