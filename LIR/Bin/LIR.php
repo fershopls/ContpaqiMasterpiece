@@ -134,8 +134,9 @@ class LIR extends ReporterInterface {
                     $csv_rows[$csv_id][$dh->getConceptId('Nombre de Empleado')] = $db_worker_dic[$db_slug][$worker_id]['nombrelargo'];
                     $csv_rows[$csv_id][$dh->getConceptId('Tipo de Periodo')] = $_period_type_key;
                     $csv_rows[$csv_id][$dh->getConceptId('No. de Periodo')] = $db_period_dic[$db_slug][$period_id]['numeroperiodo'];
-                    $csv_rows[$csv_id][$dh->getConceptId('Fecha Inicio')] = $db_period_dic[$db_slug][$period_id]['fechainicio'];
-                    $csv_rows[$csv_id][$dh->getConceptId('Fecha Fin')] = $db_period_dic[$db_slug][$period_id]['fechafin'];
+                    # $csv_rows[$csv_id][$dh->getConceptId('Fecha Inicio')] = $db_period_dic[$db_slug][$period_id]['fechainicio'];
+                    # $csv_rows[$csv_id][$dh->getConceptId('Fecha Fin')] = $db_period_dic[$db_slug][$period_id]['fechafin'];
+                    $csv_rows[$csv_id][$dh->getConceptId('Fecha Periodo')] = ucfirst($_period_type_key).' del '.date("d/m/Y", strtotime($db_period_dic[$db_slug][$period_id]['fechainicio'])).' al '.date("d/m/Y", strtotime($db_period_dic[$db_slug][$period_id]['fechafin']));
 
                     $_concept_type_last = null;
                     $_concept_type_total = 0;
