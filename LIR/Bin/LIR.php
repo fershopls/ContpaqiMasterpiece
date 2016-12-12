@@ -133,7 +133,7 @@ class LIR extends ReporterInterface {
                     $db_name = isset($dbs_strings[$db_slug])?$dbs_strings[$db_slug]:$db_slug;
                     $csv_rows[$csv_id][$dh->getConceptId('Factura')] = $db_worker_dic[$db_slug][$worker_id]['invoice'];
                     $csv_rows[$csv_id][$dh->getConceptId('Empresa')] = $db_name;
-                    $csv_rows[$csv_id][$dh->getConceptId('Codigo de Empleado')] = '#'.$db_worker_dic[$db_slug][$worker_id]['codigoempleado'];
+                    $csv_rows[$csv_id][$dh->getConceptId('Codigo de Empleado')] = ' '.$db_worker_dic[$db_slug][$worker_id]['codigoempleado'];
                     $csv_rows[$csv_id][$dh->getConceptId('Nombre de Empleado')] = $db_worker_dic[$db_slug][$worker_id]['nombrelargo'];
                     $csv_rows[$csv_id][$dh->getConceptId('Tipo de Periodo')] = $_period_type_key;
                     $csv_rows[$csv_id][$dh->getConceptId('No. de Periodo')] = $db_period_dic[$db_slug][$period_id]['numeroperiodo'];
@@ -175,30 +175,7 @@ class LIR extends ReporterInterface {
 
     public function getAvailableDatabases ($regpat = null)
     {
-        // Inject available dbs
-        $databaseManager = $this->import(DatabaseManager::class, ['nomGenerales'], $this->pdo);
-
-        $dbs = $databaseManager->logic();
-        $this->injectDbs($dbs);
-
-        if ($regpat)
-        {
-            // Get databases regpat
-            $dbs_regpat = $this->query(DatabaseRegPat::class)->execute();
-            // Filter databases by regpat
-            $dbs_filter = array_filter($dbs_regpat, function($e) use ($regpat) {
-                foreach ($e as $rp)
-                {
-                    if ($rp == $regpat)
-                        return true;
-                }
-                return false;
-            });
-            // Get results
-            $dbs = array_keys($dbs_filter);
-        }
-
-        return ["dbs" => $dbs, "strings"=>$databaseManager->getStrings()];
+        return $this->import(GetAvailableDatabases::class, null, null, array('regpat'=>$regpat))->logic();
     }
 
 }
