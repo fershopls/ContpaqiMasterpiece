@@ -3,7 +3,9 @@ require_once realpath(__DIR__) . '/../bootstrap.php';
 
 $REQUESTS_DIRECTORY = $settings->get('DIRS.APPS.LIR', realpath(__DIR__).'/');
 $REGPAT_PATH = $settings->get('DIRS.cache').'/regpats.json';
+$DBS_PATH = $settings->get('DIRS.cache').'/databases.json';
 $AVAILABLE_REGPAT_ARRAY = file_exists($REGPAT_PATH)?json_decode(file_get_contents($REGPAT_PATH), true):[''];
+$AVAILABLE_DBS_ARRAY = file_exists($DBS_PATH)?json_decode(file_get_contents($DBS_PATH), true):[''];
 
 if ($_POST)
 {
@@ -17,6 +19,7 @@ if ($_POST)
     // FILL
     $config['filename'] = get('filename').'.csv';
     $config['regpat'] = get('regpat');
+    $config['database'] = get('database');
     $config['excercise'] = get('excercise');
     $config['period_type'] = get('period_type');
     $config['date_begin'] = get('date_begin');
@@ -67,7 +70,7 @@ if ($_POST)
                 <div class="attribute half">
                     <div class="key">Registro Patronal</div>
                     <div class="value">
-                        <select name="regpat">
+                        <select name="regpat" id="regpat">
                             <?php
                             foreach ($AVAILABLE_REGPAT_ARRAY as $key => $value)
                                 echo '<option value="'.$key.'">'.$value.'</option>';
@@ -75,6 +78,21 @@ if ($_POST)
                         </select>
                     </div>
                 </div>
+
+
+                <div class="attribute half">
+                    <div class="key">Empresa</div>
+                    <div class="value">
+                        <select name="database" id="database">
+                            <option id='all' value="">Todas las Empresas</option>
+                            <?php
+                            foreach ($AVAILABLE_DBS_ARRAY as $db_slug => $row)
+                                echo '<option data-regpats="'.join($row['regpats'], ',').'" value="'.$db_slug.'">'.$row['string'].'</option>'.PHP_EOL;
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
 
                 <div class="attribute half">
                     <div class="key">Ejercicio</div>
@@ -148,6 +166,27 @@ if ($_POST)
 
         </div>
 </form>
+
+
+<script>
+document.getElementById('regpat').addEventListener('change', function(){
+    regpat_selected = this.value;
+    options = document.querySelectorAll('#database option');
+    document.getElementById('database').value = '';
+    for (var i = 0; i < options.length; i++) {
+        op = options[i];
+        if (op.id == 'all')
+            continue;
+        if (op.attributes.item('data-regpat').textContent.split(',').indexOf(regpat_selected) != -1) {
+            op.style.display = 'block';
+        } else {
+            op.style.display = 'none';
+        }
+        //console.log(op.style.display, op)
+    }
+});
+
+</script>
 
 </body>
 </html>
