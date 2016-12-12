@@ -8,6 +8,7 @@ abstract class QueryInterface {
     protected $dbs = array();
 
     protected $queryFetchMode = \PDO::FETCH_BOTH;
+    protected $debugQuery = true;
 
     abstract public function getQuery();
 
@@ -18,13 +19,13 @@ abstract class QueryInterface {
 
         $result = array();
 
-        echo "\n\n[QUERY] [".get_class($this)."]\n[".date("H:i:s")."] {$query}\n";
+        if ($this->debugQuery) echo "\n\n[QUERY] [".get_class($this)."]\n[".date("H:i:s")."] {$query}\n";
         $_total = count($this->dbs);
         $_index = 0;
         foreach ($this->dbs as $db)
         {
             $_index++;
-            echo "\r[".date("H:i:s")."] ".round($_index/$_total *100)."% [{$_index}/$_total] `{$db}`";
+            if ($this->debugQuery) echo "\r[".date("H:i:s")."] ".round($_index/$_total *100)."% [{$_index}/$_total] `{$db}`";
             $q = $this->pdo->using($db)->prepare($query);
             $q->setFetchMode($this->queryFetchMode);
             $q->execute($parameters);

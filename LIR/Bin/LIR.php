@@ -5,10 +5,9 @@ namespace LIR\Bin;
 use lib\Reporter\ReporterInterface;
 
 // Managers
-use SUA\Manager\DatabaseManager;
+use LIR\Query\DbWorkerStatusDic;
 
 // Query
-use SUA\Query\DatabaseRegPat;
 use LIR\Query\DbWorkerDic;
 use LIR\Query\DbPeriodDic;
 use LIR\Query\DbPeriodTypeDic;
@@ -45,8 +44,8 @@ class LIR extends ReporterInterface {
         $db_key_concept_dic = $this->query(DbKeyConceptDic::class)
             ->execute();
 
-
         // Solve Relationships
+        $db_worker_status_dic = array();
         $db_worker_concept_dic = array();
 
         foreach ($db_worker_dic as $db_slug => $db_workers)
@@ -88,17 +87,25 @@ class LIR extends ReporterInterface {
                 $wmv_rows = $q->fetchAll();
                 foreach ($wmv_rows as $wmv_row)
                 {
+                    // Worker Movements
                     $_cpt_key = StringKey::get($db_concept_dic[$db_slug][$wmv_row['idconcepto']]['descripcion']);
                     $_cpt_type = $db_key_concept_dic[$_cpt_key]['tipoconcepto'];
 
                     $db_concept_ordered [$_cpt_type][$_cpt_key] = 1;
 
                     $db_worker_concept_dic [$db_slug] [$wmv_row['idperiodo']] [$dbw_row['idempleado']] [$_cpt_key] = $wmv_row['importetotal'];
+
+                    // Worker Status
+                    if (!isset($db_worker_status_dic[$db_slug][$wmv_row['idperiodo']][$dbw_row['idempleado']]))
+                    {
+                        // Make sure every row had a status
+                        $db_worker_status_dic[$db_slug][$wmv_row['idperiodo']][$dbw_row['idempleado']] = $this->query(DbWorkerStatusDic::class)
+                            ->execute(array('id_periodo'=> $wmv_row['idperiodo'], 'id_empleado'=> $dbw_row['idempleado']));
+                    }
                 }
 
             }
         }
-
 
         //
         // DUMP
@@ -136,6 +143,8 @@ class LIR extends ReporterInterface {
                     $csv_rows[$csv_id][$dh->getConceptId('Codigo de Empleado')] = ' '.$db_worker_dic[$db_slug][$worker_id]['codigoempleado'];
                     $csv_rows[$csv_id][$dh->getConceptId('Nombre de Empleado')] = $db_worker_dic[$db_slug][$worker_id]['nombrelargo'];
                     $csv_rows[$csv_id][$dh->getConceptId('Forma de Pago')] = $db_worker_dic[$db_slug][$worker_id]['payment_type'];
+                    $csv_rows[$csv_id][$dh->getConceptId('Estatus')] = isset($db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status'])?$db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status']:DbWorkerStatusDic::DEFAULT_STATUS;
+                    $csv_rows[$csv_id][$dh->getConceptId('Fecha Estatus')] = isset($db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status_date'])?$db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status_date']:'';
                     $csv_rows[$csv_id][$dh->getConceptId('Tipo de Periodo')] = $_period_type_key;
                     $csv_rows[$csv_id][$dh->getConceptId('No. de Periodo')] = $db_period_dic[$db_slug][$period_id]['numeroperiodo'];
                     # $csv_rows[$csv_id][$dh->getConceptId('Fecha Inicio')] = $db_period_dic[$db_slug][$period_id]['fechainicio'];
