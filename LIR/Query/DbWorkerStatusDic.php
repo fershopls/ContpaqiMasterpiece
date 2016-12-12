@@ -19,7 +19,7 @@ class DbWorkerStatusDic extends QueryInterface {
 
     public function getQuery()
     {
-        return "SELECT  [IdDocumento], [IdEmpleado], [IdPeriodo], [Estado], [TimeStamp] FROM [nom10043] WHERE IdEmpleado = :id_empleado and IdPeriodo = :id_periodo";
+        return "SELECT [Estado], [TimeStamp] FROM [nom10043] WHERE IdEmpleado = :id_empleado and IdPeriodo = :id_periodo";
     }
 
     public function handle($query_object)
@@ -28,9 +28,10 @@ class DbWorkerStatusDic extends QueryInterface {
         foreach ($query_object as $db_slug => $rows) {
             foreach ($rows as $id_row => $row)
             {
-                $row['status'] = $this->getStatusType($row['Estado']);
-                $row['status_date'] = $this->getStatusDate($row['TimeStamp']);
-                $result[$db_slug] = $row;
+                $result[$db_slug] = array(
+                    'status' => $this->getStatusType($row['Estado']),
+                    'status_date' => $this->getStatusDate($row['TimeStamp']),
+                );
             }
         }
         return $result;

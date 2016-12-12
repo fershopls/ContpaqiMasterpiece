@@ -17,7 +17,7 @@ if ($_POST)
     $config = ['options'=>''];
 
     // FILL
-    $config['filename'] = get('filename').'.csv';
+    $config['filename'] = get('filename');
     $config['regpat'] = get('regpat');
     $config['database'] = get('database');
     $config['excercise'] = get('excercise');
