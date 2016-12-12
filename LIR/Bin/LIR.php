@@ -135,6 +135,7 @@ class LIR extends ReporterInterface {
                     $csv_rows[$csv_id][$dh->getConceptId('Empresa')] = $db_name;
                     $csv_rows[$csv_id][$dh->getConceptId('Codigo de Empleado')] = ' '.$db_worker_dic[$db_slug][$worker_id]['codigoempleado'];
                     $csv_rows[$csv_id][$dh->getConceptId('Nombre de Empleado')] = $db_worker_dic[$db_slug][$worker_id]['nombrelargo'];
+                    $csv_rows[$csv_id][$dh->getConceptId('Forma de Pago')] = $db_worker_dic[$db_slug][$worker_id]['payment_type'];
                     $csv_rows[$csv_id][$dh->getConceptId('Tipo de Periodo')] = $_period_type_key;
                     $csv_rows[$csv_id][$dh->getConceptId('No. de Periodo')] = $db_period_dic[$db_slug][$period_id]['numeroperiodo'];
                     # $csv_rows[$csv_id][$dh->getConceptId('Fecha Inicio')] = $db_period_dic[$db_slug][$period_id]['fechainicio'];
