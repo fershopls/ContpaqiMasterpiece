@@ -22,7 +22,7 @@ class LIR extends ReporterInterface {
 
     public function logic ()
     {
-        $dbs = $this->getAvailableDatabases($this->parameters['regpat']);
+        $dbs = $this->getAvailableDatabases($this->parameters);
         $dbs_strings = $dbs['strings'];
         $dbs = $dbs['dbs'];
         $this->injectDbs($dbs);
@@ -183,9 +183,24 @@ class LIR extends ReporterInterface {
 
     }
 
-    public function getAvailableDatabases ($regpat = null)
+    public function getAvailableDatabases ($parameters)
     {
-        return $this->import(GetAvailableDatabases::class, null, null, array('regpat'=>$regpat))->logic();
+        $dbs = $this->import(GetAvailableDatabases::class, null, null, array('regpat'=>$parameters['regpat']))->logic();
+        if ($parameters['database'] != '')
+        {
+            $dbs_filtered = array();
+            $dbs_str_filtered = array();
+            foreach ($dbs['strings'] as $db_slug => $db_string)
+            {
+                if ($db_slug == $parameters['database'])
+                {
+                    $dbs_filtered[$db_slug] = $db_slug;
+                    $dbs_str_filtered[$db_slug] = $db_string;
+                }
+            }
+            return array('dbs' => $dbs_filtered, 'strings' => $dbs_str_filtered);
+        }
+        return $dbs;
     }
 
 }
