@@ -110,7 +110,7 @@ class LIR extends ReporterInterface {
         //
         // DUMP
         //
-        
+
         $dh = new DataHandler();
 
         $concept_type_string = [
@@ -119,7 +119,30 @@ class LIR extends ReporterInterface {
             "O" => 'Obligaciones',
         ];
 
-        $csv_rows = [];
+        // Sheet commands
+        $customReport = new \lib\Data\Sheet();
+
+        $fields = array(
+          'factura' => 'Factura',
+          'empresa' => 'Empresa',
+          'empleado_codigo' => 'Codigo de Empleado',
+          'empleado_nombre' => 'Nombre de Empleado',
+          'pago_tipo' => 'Forma de Pago',
+          'estatus' => 'Estatus',
+          'estatus_fecha' => 'Fecha Estatus',
+          'periodo_tipo' => 'Tipo de Periodo',
+          'periodo_num' => 'No. de Periodo',
+          'periodo_fecha' => 'Fecha de Periodo',
+        );
+        // Fill sources & headers
+        foreach ($fields as $id => $header)
+          $customReport->insertSource($id, $header);
+        // Custom fields
+        $customReport->insertCustomField('periodo_fecha', function($row){
+          return $row['periodo_tipo'].' del '.date("d/m/Y", strtotime($row['periodo_fecha_inicio'])).' al '.date("d/m/Y", strtotime($row['periodo_fecha_fin']));
+        });
+
+
         foreach ($db_worker_concept_dic as $db_slug => $_db_period)
         {
             foreach ($_db_period as $period_id => $_db_worker)
@@ -129,27 +152,23 @@ class LIR extends ReporterInterface {
                     $_period_type_id = $db_period_dic[$db_slug][$period_id]['idtipoperiodo'];
                     $_period_type_key = StringKey::get($db_period_type_dic[$db_slug][$_period_type_id]['nombretipoperiodo']);
 
-                    $csv_id = md5($db_slug).$period_id.$worker_id;
-
                     // Set invoice
                     $db_worker_dic[$db_slug][$worker_id]['invoice'] =
                         ($db_worker_dic[$db_slug][$worker_id]['bajaimss'] == 1
                             && $db_worker_dic[$db_slug][$worker_id]['fechabaja'] >= $db_period_dic[$db_slug][$period_id]['fechainicio']
                             && $db_worker_dic[$db_slug][$worker_id]['fechabaja'] <= $db_period_dic[$db_slug][$period_id]['fechafin'])?$db_worker_dic[$db_slug][$worker_id]['campoextra1']:'';
 
-                    $db_name = isset($dbs_strings[$db_slug])?$dbs_strings[$db_slug]:$db_slug;
-                    $csv_rows[$csv_id][$dh->getConceptId('Factura')] = $db_worker_dic[$db_slug][$worker_id]['invoice'];
-                    $csv_rows[$csv_id][$dh->getConceptId('Empresa')] = $db_name;
-                    $csv_rows[$csv_id][$dh->getConceptId('Codigo de Empleado')] = ' '.$db_worker_dic[$db_slug][$worker_id]['codigoempleado'];
-                    $csv_rows[$csv_id][$dh->getConceptId('Nombre de Empleado')] = $db_worker_dic[$db_slug][$worker_id]['nombrelargo'];
-                    $csv_rows[$csv_id][$dh->getConceptId('Forma de Pago')] = $db_worker_dic[$db_slug][$worker_id]['payment_type'];
-                    $csv_rows[$csv_id][$dh->getConceptId('Estatus')] = isset($db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status'])?$db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status']:DbWorkerStatusDic::DEFAULT_STATUS;
-                    $csv_rows[$csv_id][$dh->getConceptId('Fecha Estatus')] = isset($db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status_date'])?$db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status_date']:'';
-                    $csv_rows[$csv_id][$dh->getConceptId('Tipo de Periodo')] = $_period_type_key;
-                    $csv_rows[$csv_id][$dh->getConceptId('No. de Periodo')] = $db_period_dic[$db_slug][$period_id]['numeroperiodo'];
-                    # $csv_rows[$csv_id][$dh->getConceptId('Fecha Inicio')] = $db_period_dic[$db_slug][$period_id]['fechainicio'];
-                    # $csv_rows[$csv_id][$dh->getConceptId('Fecha Fin')] = $db_period_dic[$db_slug][$period_id]['fechafin'];
-                    $csv_rows[$csv_id][$dh->getConceptId('Fecha Periodo')] = ucfirst($_period_type_key).' del '.date("d/m/Y", strtotime($db_period_dic[$db_slug][$period_id]['fechainicio'])).' al '.date("d/m/Y", strtotime($db_period_dic[$db_slug][$period_id]['fechafin']));
+                    $row['factura'] = $db_worker_dic[$db_slug][$worker_id]['invoice'];
+                    $row['empresa'] = isset($dbs_strings[$db_slug])?$dbs_strings[$db_slug]:$db_slug;;
+                    $row['empleado_codigo'] = ' '.$db_worker_dic[$db_slug][$worker_id]['codigoempleado'];
+                    $row['empleado_nombre'] = $db_worker_dic[$db_slug][$worker_id]['nombrelargo'];
+                    $row['pago_tipo'] = $db_worker_dic[$db_slug][$worker_id]['payment_type'];
+                    $row['estatus'] = isset($db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status'])?$db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status']:DbWorkerStatusDic::DEFAULT_STATUS;
+                    $row['estatus_fecha'] = isset($db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status_date'])?$db_worker_status_dic[$db_slug][$period_id][$worker_id][$db_slug]['status_date']:'';
+                    $row['periodo_tipo'] = ucfirst($_period_type_key);
+                    $row['periodo_num'] = $db_period_dic[$db_slug][$period_id]['numeroperiodo'];
+                    $row['periodo_fecha_inicio'] = $db_period_dic[$db_slug][$period_id]['fechainicio'];
+                    $row['periodo_fecha_fin'] = $db_period_dic[$db_slug][$period_id]['fechafin'];
 
                     $_concept_type_last = null;
                     $_concept_type_total = 0;
@@ -160,8 +179,12 @@ class LIR extends ReporterInterface {
                         {
                             if ($_concept_type_last != 'N')
                             {
-                                $concept_row = $dh->getConceptId("Total ".$concept_type_string[$_concept_type_last]);
-                                $csv_rows[$csv_id][$concept_row] = $_concept_type_total;
+                                $concept_txt = "Total ".$concept_type_string[$_concept_type_last];
+                                $concept_row = $dh->getConceptId($concept_txt);
+                                // Insert source
+                                $customReport->insertSource($concept_row, $concept_txt);
+                                // attach to row
+                                $row[$concept_row] = $_concept_type_total;
                             }
                             $_concept_type_total = 0;
                         }
@@ -170,16 +193,22 @@ class LIR extends ReporterInterface {
                         {
                             $concept_value = isset($_db_concept[$_concept_key])?$_db_concept[$_concept_key]:0;
                             $concept_row = $dh->getConceptId($db_key_concept_dic[$_concept_key]['descripcion']);
-                            $csv_rows[$csv_id][$concept_row] = $concept_value;
+                            // Insert source
+                            $customReport->insertSource($concept_row, $db_key_concept_dic[$_concept_key]['descripcion']);
+                            // attach to row
+                            $row[$concept_row] = $concept_value;
                             $_concept_type_total += $concept_value;
                         }
                     }
 
+                    // Insert rows
+                    $customReport->insertRow($row);
                 }
             }
         }
 
-        file_put_contents($this->parameters['filename'], $this->createCsv($dh->getHeaders(), $csv_rows));
+        // Get a nice report
+        file_put_contents($this->parameters['filename'], $customReport->csv($customReport->get()));
 
     }
 
