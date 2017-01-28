@@ -7,7 +7,7 @@ abstract class QueryInterface {
     protected $pdo;
     protected $dbs = array();
 
-    protected $queryFetchMode = \PDO::FETCH_BOTH;
+    protected $queryFetchMode = \PDO::FETCH_ASSOC;
     protected $debugQuery = true;
 
     abstract public function getQuery();

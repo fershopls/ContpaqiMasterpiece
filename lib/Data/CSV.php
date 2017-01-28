@@ -6,7 +6,7 @@ class CSV {
     const CHAR_SEPARATOR = ",";
     const CHAR_ENCLOSURE = "\"";
     const CHAR_ENDOFLINE = PHP_EOL;
-
+    
     protected $body = "";
 
     public function write ($array_bidimensional_rows)

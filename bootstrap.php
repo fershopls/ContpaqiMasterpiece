@@ -27,7 +27,7 @@ use Phine\Path\Path;
  * */
 $settings = new SettingsManager(include(Path::join([MASTER_DIR, 'support', 'config.php'])));
 
-$settings->bind('/^DIRS\.(.*)/', function ($property) {
+$settings->middleware('APP_ROOT', function ($property) {
     if (is_string($property))
     {
         $property = preg_replace("/\%/", MASTER_DIR, $property);
@@ -38,7 +38,7 @@ $settings->bind('/^DIRS\.(.*)/', function ($property) {
         }
     }
     return preg_replace("/([\/\\\\])/", DIRECTORY_SEPARATOR, $property);
-});
+})->bind('/^DIRS\./', 'APP_ROOT');
 
 $pdo = new StackPDO(
     $settings->get('SQLSRV.hosting'),
