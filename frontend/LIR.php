@@ -121,7 +121,7 @@ if ($_POST)
                 </div>
 
                 <div class="attribute half">
-                    <div class="key">Fecha de Inicio</div>
+                    <div class="key">Fecha de Fin</div>
                     <div class="value">
                         <input name="date_end" type="date">
                     </div>
