@@ -20,7 +20,7 @@ if ($_POST)
     $config['filename'] = get('filename');
     $config['regpat'] = get('regpat');
     $config['database'] = get('database');
-    $config['excercise'] = get('excercise');
+    $config['exercise'] = get('exercise');
     $config['period_type'] = get('period_type');
     $config['date_begin'] = get('date_begin');
     $config['date_end'] = get('date_end');
@@ -97,7 +97,7 @@ if ($_POST)
                 <div class="attribute half">
                     <div class="key">Ejercicio</div>
                     <div class="value">
-                        <input name="excercise" type="number" value="2016">
+                        <input name="exercise" type="number" value="2016">
                     </div>
                 </div>
 
