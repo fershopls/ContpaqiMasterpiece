@@ -8,7 +8,8 @@ class DatabasePeriodDates extends QueryInterface {
 
     public function getQuery ()
     {
-        return "SELECT [idperiodo] FROM [nom10002] WHERE [fechainicio] between :date_beg and :date_end;";
+        // return "SELECT [idperiodo] FROM [nom10002] WHERE [fechainicio] between :date_beg and :date_end;";
+        return "SELECT [idperiodo] FROM [nom10002] WHERE [fechafin] between :date_beg and :date_end;";
     }
 
     public function handle ($query_object)
