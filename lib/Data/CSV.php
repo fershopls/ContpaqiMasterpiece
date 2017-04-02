@@ -21,7 +21,8 @@ class CSV {
         $line = "";
         foreach ($array_rows as $raw) {
             $row = str_replace(self::CHAR_ENCLOSURE, "\\".self::CHAR_ENCLOSURE, $raw);
-            $row = self::CHAR_ENCLOSURE. $row .self::CHAR_ENCLOSURE;
+            $is_number = preg_match("/^[0-9\.]+$/", $raw)?'=':'';
+            $row = $is_number.self::CHAR_ENCLOSURE. $row .self::CHAR_ENCLOSURE;
             $line .= $row . self::CHAR_SEPARATOR;
         }
         $this->body .= preg_replace("/\,$/", self::CHAR_ENDOFLINE, $line);
