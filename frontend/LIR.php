@@ -97,7 +97,7 @@ if ($_POST)
                 <div class="attribute half">
                     <div class="key">Ejercicio</div>
                     <div class="value">
-                        <input name="exercise" type="number" value="2016">
+                        <input name="exercise" type="number" value="<?php echo date("Y"); ?>">
                     </div>
                 </div>
 
