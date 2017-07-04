@@ -22,3 +22,10 @@ foreach ($dbs as $db_slug => $_regpat)
 file_put_contents($settings->get('DIRS.cache').'/regpats.json', json_encode($result, JSON_PRETTY_PRINT));
 
 file_put_contents($settings->get('DIRS.cache').'/databases.json',json_encode($available_databases, JSON_PRETTY_PRINT));
+
+//Redirección al menú de reporte
+$post = isset($_POST["buff"])?true:false;
+
+if($post){
+    header("Location: ../frontend/LIR.php");
+}
