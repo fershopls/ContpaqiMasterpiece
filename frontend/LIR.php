@@ -50,7 +50,7 @@ if ($_POST)
 <body>
 
 <?php if ($_POST): ?>
-    <div style="padding: 20px; width 100%; font-size: 16px; font-weight: bolder; text-align: center; color:darkgreen; background-color: lightgreen;">REPORTE AÑADIDO A LA COLA</div>
+    <div style="padding: 20px; width: 100%; font-size: 16px; font-weight: bolder; text-align: center; color:darkgreen; background-color: lightgreen;">REPORTE AÑADIDO A LA COLA</div>
 <?php endif; ?>
 
 <form action="" method="POST">
@@ -60,6 +60,13 @@ if ($_POST)
         <div class="attribute-group">
             <h2>General Info</h2>
             <div class="content">
+                <div class="attribute">
+                    <div class="value">
+                        <input type="hidden" name="buff" id="buff" value="true">
+                        <input type="submit" value="BUFFER" formaction="../bin/get_regpats.php">
+                    </div>
+                </div>
+
                 <div class="attribute half">
                     <div class="key">Nombre del Reporte</div>
                     <div class="value">
