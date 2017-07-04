@@ -159,7 +159,6 @@ if (!$r)
         <th>Created at</th>
         <th>Ended at</th>
         <th>Status start</th>
-        <th>Status end</th>
         <th>More</th>
     </tr>
     <?php foreach ($rows as $r): ?>
@@ -173,7 +172,6 @@ if (!$r)
             <td><?= get_time($r['created_at']) ?></td>
             <td><?= get_time($r['ended_at']) ?></td>
             <td><?= $r['status_start'] ?></td>
-            <td><?= $r['status_end'] ?></td>
             <td><a href="?id=<?= $r['id'] ?>">See More &raquo;</a></td>
         </tr>
     <?php endforeach; ?>
