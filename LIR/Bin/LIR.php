@@ -17,30 +17,8 @@ use LIR\Query\DbKeyConceptDic;
 // Util
 use LIR\Util\StringKey;
 use LIR\Util\DataHandler;
-use lib\Database\SQLite3\Analytics;
 
 class LIR extends ReporterInterface {
-    
-    public function status ($msg, $save = true)
-    {
-        echo "\n[STATUS]: {$msg}\n";
-        if (!$save) return true;
-        if (!isset($this->parameters['id']) || !isset($this->parameters['__cache_dir']))
-        {
-            echo "[ANALYTICS_ERROR] Parameter id or __cache_dir missing:\n\n\n";
-            return false;
-        }
-        $ana = isset($this->ana)?$this->ana:new Analytics($this->parameters['__cache_dir']);
-        $obj = $ana->get($this->parameters['id']);
-        if ($obj)
-        {
-            $obj['status_end'] .= $msg.'. ';
-            $res = $ana->update($obj['id'], $obj);
-        } else {
-            echo "[ANALYTICS_ERROR] Id not found on database.\n\n";
-        }
-        return $obj;
-    }
 
     public function logic ()
     {
@@ -70,9 +48,6 @@ class LIR extends ReporterInterface {
         $db_worker_status_dic = array();
         $db_worker_concept_dic = array();
 
-        // Debug
-        $this->status("Query DB Worker DIC returned ".count($db_worker_dic)." results");
-
         foreach ($db_worker_dic as $db_slug => $db_workers)
         {
             // Get period type
@@ -91,30 +66,16 @@ class LIR extends ReporterInterface {
 
             // Skip database if don't have `period_type` desired
             if (count($period_type) == 0 && $this->parameters['period_type']!='')
-            {
-                // Debug
-                $this->status("Database {$db_slug} skipped because don't have period_type desired.");
-
                 continue;
-            }
 
             if (count($period_type) && $this->parameters['period_type'] != '')
                 $params['period_type'] = array_values($period_type)[0]['idtipoperiodo'];
-
-            // Debug
-            $this->status("DB Workers from {$db_slug} returned ".count($db_workers)." results");
 
             foreach ($db_workers as $dbw_row)
             {
                 // Skip worker if has `bajaimms  & `worker_down` option is not active
                 if ($this->parameters['options']['worker_down'] == false && $dbw_row['bajaimss'] == 1)
-                {
-                    // Debug
-                    $this->status("Worker ".json_encode($dbw_row)." skipped: bajaimss = 1;");
-
                     continue;
-                }
-
                 // Set search parameter worker_id
                 $params['worker_id'] = $dbw_row['idempleado'];
 
@@ -159,16 +120,8 @@ class LIR extends ReporterInterface {
         ];
 
         $csv_rows = [];
-
-
-        // Debug
-        $this->status("ON DUMP: db worker concept dic has ".count($db_worker_concept_dic)." rows");
-
         foreach ($db_worker_concept_dic as $db_slug => $_db_period)
         {
-            // Debug
-            $this->status("ON DUMP: {$db_slug} periods array has ".count($_db_period)." rows", false);
-
             foreach ($_db_period as $period_id => $_db_worker)
             {
                 foreach ($_db_worker as $worker_id => $_db_concept)
@@ -201,10 +154,6 @@ class LIR extends ReporterInterface {
                     $_concept_type_last = null;
                     $_concept_type_total = 0;
                     $db_concept_ordered['FINAL'] = [];
-
-                    // Debug
-                    $this->status("ON DUMP ORDERING: db_concept_ordered array has ".count($db_concept_ordered)." rows", false);
-
                     foreach ($db_concept_ordered  as $_concept_type => $_concept_group)
                     {
                         if ($_concept_type_last && $_concept_type_last != $_concept_type)
@@ -217,10 +166,6 @@ class LIR extends ReporterInterface {
                             $_concept_type_total = 0;
                         }
                         $_concept_type_last = $_concept_type;
-
-                        // Debug
-                        $this->status("ON DUMP ORDERING: _concept_group array has ".count($_concept_group)." rows", false);
-
                         foreach ($_concept_group as $_concept_key => $i)
                         {
                             $concept_value = isset($_db_concept[$_concept_key])?$_db_concept[$_concept_key]:0;
@@ -235,9 +180,6 @@ class LIR extends ReporterInterface {
         }
 
         file_put_contents($this->parameters['filename'], $this->createCsv($dh->getHeaders(), $csv_rows));
-
-        // Debug
-        if (!file_exists($this->parameters['filename'])) $this->status("ON WRITING FILE: Error on file_put_contents.");
 
     }
 

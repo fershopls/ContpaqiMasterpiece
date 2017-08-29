@@ -3,10 +3,6 @@
 // Init Script
 require_once realpath(__DIR__) . '/../bootstrap.php';
 
-use lib\Frontend\FormBuilder;
-use lib\Database\SQLite3\Analytics;
-
-
 // Work on existent frontend
 $frontends_available = $settings->get('FRONTEND');
 $frontend_id = isset($_GET['frontend'])?$_GET['frontend']:'';
@@ -21,24 +17,14 @@ if (!isset($frontends_available[$frontend_id]))
 }
 
 // Instance FormBuilder with specific settings
+use lib\Frontend\FormBuilder;
 $FormBuilder = new FormBuilder($frontends_available[$frontend_id]['FORM']);
 $FormBuilder->setSourceParameters([$settings]);
 
 // When the form has been sent
 if ($_POST)
 {
-    $form_values = $FormBuilder->receive($_POST);
-    // Create SQL Entry
-    $ana = new Analytics($settings->get('DIRS.cache'));
-    $obj = $ana->create([
-        'frontend_id' => strtoupper($frontend_id),
-        'params_frontend' => json_encode($form_values),
-        'created_at' => time(),
-    ]);
-    $form_values['id'] = $obj['id'];
-    
-    // Create File
-    $json = json_encode($form_values, JSON_PRETTY_PRINT);
+    $json = json_encode($FormBuilder->receive($_POST), JSON_PRETTY_PRINT);
     $save_path = $settings->get('DIRS.APPS.'.strtoupper($frontend_id), realpath(__DIR__));
     $filename = date("Ymd_His").'.json';
     file_put_contents($save_path . DIRECTORY_SEPARATOR . $filename, $json);
