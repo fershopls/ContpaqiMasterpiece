@@ -19,7 +19,7 @@ use LIR\Util\StringKey;
 use LIR\Util\DataHandler;
 
 class LIR extends ReporterInterface {
-
+    
     public function logic ()
     {
         $dbs = $this->getAvailableDatabases($this->parameters);
@@ -151,6 +151,12 @@ class LIR extends ReporterInterface {
                     # $csv_rows[$csv_id][$dh->getConceptId('Fecha Fin')] = $db_period_dic[$db_slug][$period_id]['fechafin'];
                     $csv_rows[$csv_id][$dh->getConceptId('Fecha Periodo')] = ucfirst($_period_type_key).' del '.date("d/m/Y", strtotime($db_period_dic[$db_slug][$period_id]['fechainicio'])).' al '.date("d/m/Y", strtotime($db_period_dic[$db_slug][$period_id]['fechafin']));
 
+                    // ORDERS
+                    foreach ($this->getLIRFieldsOrder() as $field)
+                    {
+                        $dh->getConceptId($field);
+                    }
+                    
                     $_concept_type_last = null;
                     $_concept_type_total = 0;
                     $db_concept_ordered['FINAL'] = [];
@@ -203,4 +209,83 @@ class LIR extends ReporterInterface {
         return $dbs;
     }
 
+
+    public function getLIRFieldsOrder (){
+        return array(
+            'Factura',
+            'Empresa',
+            'Codigo de Empleado',
+            'Nombre de Empleado',
+            'Forma de Pago',
+            'Estatus',
+            'Fecha Estatus',
+            'Tipo de Periodo',
+            'No. de Periodo',
+            'Sueldo',
+            'CUOTA SINDICAL.',
+            'Cuota Sindical 1',
+            'Septimo dia',
+            'Gratificacion',
+            'Vacaciones a tiempo',
+            'Prima de vacaciones reportada $',
+            'Aguinaldo',
+            'Dia festivo / descanso',
+            'Prima dominical',
+            'Prima dominical',
+            'Prima de vacaciones a tiempo',
+            'Vacaciones reportadas $',
+            'CUOTA SINDICAL 2',
+            'Comisiones',
+            'Anticipo de Cuota Sindical',
+            'Prima de antiguedad',
+            'Horas extras',
+            'Retroactivo',
+            'CAS.',
+            'CAS 2',
+            'Compensacion',
+            'P01',
+            'Devolucion Fonacot',
+            'CUOTAS 1',
+            'CUOTAS 2',
+            'CUOTAS 3',
+            'Cuotas',
+            'Bono puntualidad',
+            'Total Percepciones',
+            'Ajuste al neto',
+            'I.M.S.S.',
+            'Subsidio al Empleo (sp)',
+            'Subs al Empleo acreditado',
+            'I.S.R. antes de Subs al Empleo',
+            'I.S.R. (sp)',
+            'Anticipo de cuota sindical 1',
+            'Anticipo Cuota Sindical',
+            'Ret. Inv. Y Vida',
+            'Ret. Cesantia',
+            'Ret. Enf. y Mat. obrero',
+            'Prestamo Infonavit',
+            'Prestamo FONACOT',
+            'Seguro de vivienda Infonavit',
+            'ANTICIPO CUOTA SINDICAL 2',
+            'ANTICIPO CUOTA SINDICAL 1',
+            'ANTICIPO CUOTA SINDICAL 5',
+            'Prestamo Infonavit (cf)',
+            'Prestamo Infonavit (vsm)',
+            'Anticipo Cuota Sindical 3',
+            'Anticipo de cuota sindical 2',
+            'Otros',
+            'Pension alimenticia',
+            'ANTICIPO CAS 2',
+            'ANTICIPO CAS 1',
+            'Desc. empresa',
+            'I.S.R. Art142',
+            'Adeudo FONACOT',
+            'I.S.R. (mes)',
+            'Anticipo Cuota Sindical 4',
+            'Anticipo de cuotas 1',
+            'Anticipo Cuotas',
+            'Deduccion general',
+            'Total Deducciones',
+            'Neto',
+        );
+    }
 }
