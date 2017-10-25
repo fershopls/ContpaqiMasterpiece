@@ -98,9 +98,11 @@ class FormBuilder {
             // Case Field Type
             if ($f['type'] == 'select') {
                 // Case SELECT
-                $f['value'] = $f['value']==''?[]:$f['value'];
+                $f['value'] = $f['value'] == '' ? [] : $f['value'];
                 $values = $this->solveValueSelect($f['value']);
                 $fieldHtml = '<select id="' . $f['id'] . '" name="' . $f['name'] . '" ' . $attributes . '>' . $values . '</select>';
+            } else if ($f['type'] == 'textarea') {
+                $fieldHtml = '<textarea id="' . $f['id'] . '" name="' . $f['name'] . '" ' . $attributes . '>' . $f['value'] . '</textarea>';
             } else {
                 // Case CHECKBOX:
                 if ($f['type'] == 'checkbox' && $f['value']=='')

@@ -44,7 +44,16 @@ class RequestsManager {
     public function getFirstFile ($stringPath)
     {
         $files = scandir($stringPath);
-        $file = isset($files[2])?$files[2]:false;
+        // Find file
+        if (count($files) >= 3)
+        {
+            array_shift($files);
+            array_shift($files);
+            do {
+                $file = array_shift($files);
+            } while (is_dir(Path::join([$stringPath, $file]))); // Find a not directory file
+        } else { $file = false; }
+        // Process
         if ($file)
         {
             $file = array(

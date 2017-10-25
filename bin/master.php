@@ -9,6 +9,8 @@ use Phine\Path\Path;
 $apps = $settings->get('APPS', []);
 $requestHandler = new RequestsManager();
 
+require_once "regpat_watcher.php";
+
 foreach ($apps as $app_slug => $app_details)
 {
     $app_request_path = $settings->get('DIRS.APPS.'.$app_slug, '');

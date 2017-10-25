@@ -1,6 +1,6 @@
 <?php
 /* @var \lib\Bin\App $app*/
-$app = require_once(realpath(__DIR__) . '/../bootstrap.php');
+$app = isset($app)?$app:require_once(realpath(__DIR__) . '/../bootstrap.php');
 
 use LIR\Bin\GetAvailableDatabases;
 use SUA\Bin\GetDatabaseRegpat;

@@ -1,0 +1,91 @@
+$font_family = "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif
+body
+  background-color #e7e7e7
+  font-family $font_family
+
+  
+//
+// Google CSS
+//
+#popup
+  box-shadow 0 0 20px 3px rgba(#aaa,0.2)
+  background-color white
+  width 550px
+  margin 30px auto
+  
+.content
+  width 100%
+  padding 20px 10px
+  box-sizing border-box
+  font-size 14px
+  
+h1
+  @extend .content
+  margin 0
+  font-size 16px
+  font-weight 900
+  text-align center
+  text-transform uppercase
+  background-color lightblue
+  color darken(lightblue, 70%)
+  
+h2
+  @extend h1
+  background-color darken(lightblue, 65%)
+  color white
+  font-size 14px
+  font-weight bold
+  padding 10px 10px
+  
+.attribute
+  margin 0
+  padding 10px 0
+  &, .key, .value
+    width 100%
+    box-sizing border-box
+  .key
+    text-transform uppercase
+    text-align center
+    font-weight bold
+    padding 10px
+  .value
+    input[type=checkbox]
+      height 20px
+    input, select
+      width 100%
+      box-sizing border-box
+      padding 10px
+      border 1px solid #e7e7e7
+  &.half
+    margin-bottom 10px
+    .key, .value
+      display inline-block
+      width 40%
+    .value
+      width 59%
+      
+      
+// 
+// Custom
+//
+.attribute
+  &.of-regpat,&.of-regpat_info,&.of-regpat_update
+    background lightyellow
+  &.of-regpat_info textarea
+    width 100%
+    background transparent
+    text-align center
+    font-size 14px
+  &.of-regpat_update input
+    background-color #f1bf0c
+    border-color @background-color
+    font-weight bold
+    text-transform uppercase
+    transition all 0.4s
+    &:hover
+      cursor pointer
+      background-color darken(#f1bf0c,80%)
+      color #f1bf0c
+      border-color @background-color
+  
+  
