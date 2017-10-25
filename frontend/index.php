@@ -56,7 +56,7 @@ if ($_POST)
             <div class="content">
 
                 <?php foreach ($FormBuilder->dumpFields() as $id => $field): ?>
-                    <div class="attribute half">
+                    <div class="attribute of-<?php echo $id;?> half">
                         <div class="key"><?php echo $field['label'];?></div>
                         <div class="value">
                             <?php echo $field['html']; ?>

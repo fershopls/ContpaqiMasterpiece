@@ -1,13 +1,15 @@
 <script>
 (function(){
-    document.getElementById('regpat').addEventListener('change', function(){
+    var selectRegpat = function(){
         regpat_selected = this.value;
         options = document.querySelectorAll('#database option');
         document.getElementById('database').value = '';
         for (var i = 0; i < options.length; i++) {
             op = options[i];
             if (op.id == 'all')
-                continue
+            {
+                continue;
+            }
 
             op_regpats = op.attributes.getNamedItem('data-regpat').value.split(',');
             if (op_regpats.indexOf(regpat_selected) != -1) {
@@ -17,6 +19,8 @@
             }
             // console.log(op.style.display, op.value, op_regpats)
         }
-    });
+    };
+    document.getElementById('regpat').addEventListener('change', selectRegpat);
+    selectRegpat();
 })();
 </script>
