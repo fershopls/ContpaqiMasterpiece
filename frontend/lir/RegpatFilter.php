@@ -22,5 +22,16 @@
     };
     document.getElementById('regpat').addEventListener('change', selectRegpat);
     selectRegpat();
+    
+    // Pick dates helper
+    var changeEndDate = function() {
+        var date_end = document.getElementById('date_end')
+        if (!date_end.hasAttribute('changed'))
+            date_end.value = this.value
+    };
+    document.getElementById('date_end').addEventListener('change', function(){
+        this.setAttribute('changed', 'changed')
+    });
+    document.getElementById('date_begin').addEventListener('change', changeEndDate);
 })();
 </script>
