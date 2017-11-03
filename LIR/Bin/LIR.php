@@ -17,6 +17,7 @@ use LIR\Query\DbKeyConceptDic;
 // Util
 use LIR\Util\StringKey;
 use LIR\Util\DataHandler;
+use LIR\Util\PeriodSelector;
 
 class LIR extends ReporterInterface {
     
@@ -44,12 +45,24 @@ class LIR extends ReporterInterface {
         $db_key_concept_dic = $this->query(DbKeyConceptDic::class)
             ->execute();
 
+        //
+        // Select periods to use by dates
+        $period_selector = new PeriodSelector();
+        $period_selector->setDates($this->parameters['date_begin'], $this->parameters['date_end']);
+        $db_period_selected = $period_selector->get($db_period_dic);
+        print_r($db_period_selected);
+        file_put_contents(MASTER_DIR . '/support/period.json', json_encode($db_period_selected, JSON_PRETTY_PRINT));
+
         // Solve Relationships
         $db_worker_status_dic = array();
         $db_worker_concept_dic = array();
 
         foreach ($db_worker_dic as $db_slug => $db_workers)
         {
+            // Not selected any period skip
+            if (!isset($db_period_selected[$db_slug]['begin']) || !isset($db_period_selected[$db_slug]['end']))
+                continue;
+
             // Get period type
             $period_type = StringKey::get($this->parameters['period_type']);
             $period_type = array_filter($db_period_type_dic[$db_slug], function ($ob) use ($period_type) {
@@ -59,8 +72,8 @@ class LIR extends ReporterInterface {
             // Set search parameters
             $params = [
                 'worker_id' => null, // We'll define it later
-                'date_begin' => $this->parameters['date_begin'],
-                'date_end'   => $this->parameters['date_end'],
+                'date_begin' => $db_period_selected[$db_slug]['begin'],// $this->parameters['date_begin'],
+                'date_end'   => $db_period_selected[$db_slug]['end'],// $this->parameters['date_end'],
                 'exercise'   => $this->parameters['exercise'],
             ];
 
