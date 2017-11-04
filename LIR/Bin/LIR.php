@@ -59,7 +59,8 @@ class LIR extends ReporterInterface {
         foreach ($db_worker_dic as $db_slug => $db_workers)
         {
             // Not selected any period skip
-            if (!isset($db_period_selected[$db_slug]['begin']) || !isset($db_period_selected[$db_slug]['end']))
+            if (!isset($db_period_selected[$db_slug]['begin']) || !isset($db_period_selected[$db_slug]['end'])
+                || !$db_period_selected[$db_slug]['begin'] || !$db_period_selected[$db_slug]['end'])
                 continue;
 
             // Get period type

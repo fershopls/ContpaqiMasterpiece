@@ -48,8 +48,8 @@ class PeriodSelector {
             // Select for each db the first begin and the last end dates.
             $_keys = array_keys($stack[$db_slug]);
             $stack[$db_slug] = array(
-                'begin' => $stack[$db_slug][$_keys[0]]['begin'],
-                'end' => $stack[$db_slug][$_keys[count($_keys)-1]]['end'],
+                'begin' => isset($stack[$db_slug][$_keys[0]]['begin'])?$stack[$db_slug][$_keys[0]]['begin']:null,
+                'end' => isset($stack[$db_slug][$_keys[count($_keys)-1]]['end'])?$stack[$db_slug][$_keys[count($_keys)-1]]['end']:null,
             );
         }
         return $stack;
