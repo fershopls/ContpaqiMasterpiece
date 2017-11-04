@@ -50,8 +50,7 @@ class LIR extends ReporterInterface {
         $period_selector = new PeriodSelector();
         $period_selector->setDates($this->parameters['date_begin'], $this->parameters['date_end']);
         $db_period_selected = $period_selector->get($db_period_dic);
-        print_r($db_period_selected);
-        file_put_contents(MASTER_DIR . '/support/period.json', json_encode($db_period_selected, JSON_PRETTY_PRINT));
+        // print_r($db_period_selected); file_put_contents(MASTER_DIR . '/support/period.json', json_encode($db_period_selected, JSON_PRETTY_PRINT));
 
         // Solve Relationships
         $db_worker_status_dic = array();
