@@ -130,7 +130,7 @@ return array(
                     );
                     if (is_array($AVAILABLE_DBS_ARRAY)){
                         foreach ($AVAILABLE_DBS_ARRAY as $db_slug => $row)
-                            array_push($values, array('key'=>$db_slug, 'value'=>isset($row['string'])?$row['string']:'', 'attr'=>['data-regpat'=>join(isset($row['regpats'])?$row['regpats']:'', ',')]));
+                            array_push($values, array('key'=>$db_slug, 'value'=>isset($row['string'])?$row['string']:'', 'attr'=>['data-regpat'=>join(isset($row['regpats'])?$row['regpats']:[], ',')]));
                     }
                     return $values;
                 }),
