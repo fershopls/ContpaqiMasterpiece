@@ -10,6 +10,7 @@ class SettingsManager {
     public function __construct($arraySettings)
     {
         $this->settings = $arraySettings;
+        $this->binds = array();
     }
 
     public function getSettings ()

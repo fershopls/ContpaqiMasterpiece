@@ -2,7 +2,7 @@
 /* @var \lib\Bin\App $app*/
 $app = isset($app)?$app:require_once(realpath(__DIR__) . '/../bootstrap.php');
 
-$request_file = $settings->get('DIRS.request').DIRECTORY_SEPARATOR.$settings->get('APPS.LIR.request_regpat_file');
+$request_file = get_dir('request', $settings).DIRECTORY_SEPARATOR.$settings->get('APPS.LIR.request_regpat_file');
 $default = array('time'=>time());
 
 if (file_exists($request_file))

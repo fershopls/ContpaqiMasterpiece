@@ -19,6 +19,6 @@ foreach ($dbs as $db_slug => $_regpat)
     }
 }
 
-file_put_contents($settings->get('DIRS.cache').'/regpats.json', json_encode($result, JSON_PRETTY_PRINT));
+file_put_contents(get_dir('cache', $settings).'/regpats.json', json_encode($result, JSON_PRETTY_PRINT));
 
-file_put_contents($settings->get('DIRS.cache').'/databases.json',json_encode($available_databases, JSON_PRETTY_PRINT));
+file_put_contents(get_dir('cache', $settings).'/databases.json',json_encode($available_databases, JSON_PRETTY_PRINT));

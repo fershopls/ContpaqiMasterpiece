@@ -25,7 +25,7 @@ $FormBuilder->setSourceParameters([$settings]);
 if ($_POST)
 {
     $json = json_encode($FormBuilder->receive($_POST), JSON_PRETTY_PRINT);
-    $save_path = $settings->get('DIRS.APPS.'.strtoupper($frontend_id), realpath(__DIR__));
+    $save_path = get_dir(strtoupper($frontend_id), $settings, get_dir('request', $settings));
     $filename = date("Ymd_His").'.json';
     file_put_contents($save_path . DIRECTORY_SEPARATOR . $filename, $json);
 }

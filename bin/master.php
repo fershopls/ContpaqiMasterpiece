@@ -13,7 +13,7 @@ require_once "regpat_watcher.php";
 
 foreach ($apps as $app_slug => $app_details)
 {
-    $app_request_path = $settings->get('DIRS.APPS.'.$app_slug, '');
+    $app_request_path = get_dir($app_slug, $settings);
 
     if ($app_slug == 'LIR' && false)
         $app_config = $app_details['default'];
@@ -23,7 +23,7 @@ foreach ($apps as $app_slug => $app_details)
     if ($app_config)
     {
         // Set filename to output file
-        $app_output_path = Path::join([$settings->get('DIRS.output'), $app_slug]);
+        $app_output_path = get_dir('output', $settings).DIRECTORY_SEPARATOR.$app_slug;
         $output_filename = isset($app_config['filename'])&&$app_config['filename']!=''?'_'.preg_replace("/(\s)/", '_', strtolower($app_config['filename'])):'';
         $output_filename = date("YmdHis").$output_filename.'.csv';
         $app_config['filename'] = Path::join([$app_output_path, $output_filename]);

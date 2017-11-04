@@ -5,3 +5,4 @@
 /.idea
 /vendor
 /frontend/regpats.json
+/config/sqlsrv.php
