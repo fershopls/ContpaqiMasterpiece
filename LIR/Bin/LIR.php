@@ -39,10 +39,7 @@ class LIR extends ReporterInterface {
         $db_period_type_dic = $this->query(DbPeriodTypeDic::class)
             ->execute();
 
-        $db_concept_dic = $this->query(DbConceptDic::class)
-            ->execute();
-
-        $db_key_concept_dic = $this->query(DbKeyConceptDic::class)
+        list($db_concept_dic, $db_key_concept_dic) = $this->query(DbConceptDic::class)
             ->execute();
 
         //

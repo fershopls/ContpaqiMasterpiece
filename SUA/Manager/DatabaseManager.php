@@ -22,15 +22,10 @@ class DatabaseManager extends ReporterInterface {
             $info[$dbreg]['attempts'] = 0;
             $info[$dbreg]['failed'] = 0;
 
-            $db_slug_char = 0;
             foreach ($rows as $db_slug => $db_name)
             {
                 $info[$dbreg]['attempts']++;
-                $db_debug = "\r[{$dbreg}][{$info[$dbreg]['attempts']}/{$rows_total}] Connection {$db_slug}";
-                for ($i = 0; $i < ($db_slug_char - strlen($db_debug)); $i++)
-                    echo " ";
-                $db_slug_char = strlen($db_debug);
-                echo $db_debug;
+                echo "\r[{$dbreg}][{$info[$dbreg]['attempts']}/{$rows_total}] {$db_slug} connection";
 
                 // Append only successful connections
                 if ($db_slug && $this->pdo->testConnection($db_slug))

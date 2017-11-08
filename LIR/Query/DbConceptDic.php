@@ -3,6 +3,7 @@
 namespace LIR\Query;
 
 use lib\Database\Query\QueryInterface;
+use LIR\Util\StringKey;
 
 class DbConceptDic extends QueryInterface {
 
@@ -13,15 +14,18 @@ class DbConceptDic extends QueryInterface {
 
     public function handle ($query_object)
     {
-        $result = [];
+        $result_cpt = [];
+        $result_key = [];
         foreach ($query_object as $db_slug => $rows)
         {
             foreach ($rows as $row)
             {
-                $result[$db_slug][$row['idconcepto']] = $row;
+                $result_cpt[$db_slug][$row['idconcepto']] = $row;
+                $result_key[StringKey::get($row['descripcion'])] = $row;
             }
         }
-        return $result;
+
+        return array($result_cpt, $result_key);
     }
 
 }

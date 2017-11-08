@@ -20,7 +20,7 @@ class PeriodSelector {
         $beg = $this->begin;
         $end = $this->end;
         $format = 'Y-m-d';
-        echo "\n[DATES] ".date($format,$beg)." - ".date($format,$end)."\n";
+        echo "\n[DATES] From ".date($format,$beg)." to ".date($format,$end)." period dates.\n";
         $format = 'Ymd H:i'; // Required format for SQL
         $stack = array();
 

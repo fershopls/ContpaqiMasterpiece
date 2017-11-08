@@ -15,7 +15,7 @@ foreach ($apps as $app_slug => $app_details)
 {
     $app_request_path = get_dir($app_slug, $settings);
 
-    if ($app_slug == 'LIR' && false)
+    if ($app_slug == 'LIR' && true)
         $app_config = $app_details['default'];
     else
         $app_config = $requestHandler->get($app_details['default'])->on($app_request_path);
@@ -39,8 +39,8 @@ foreach ($apps as $app_slug => $app_details)
         if ($app_config['email'] != '') {
             echo "\n\n[MAIL] Sending mail to '{$app_config['email']}'.";
             $asunto = 'Reporte "'.$app_config['filename'].'" Generado';
-            $mensaje = "Su reporte \"{$app_config['filename']}\" se ha generado en \\\\192.168.2.200\\{$app_output_path}\\{$output_filename}.";
-            $cabeceras = 'From: no-reply@gmail.com' . "\r\n".
+            $mensaje = "Su reporte \"{$app_config['filename']}\" se ha generado en:\n \\\\192.168.2.200:85\\{$app_output_path}\\{$output_filename}.";
+            $cabeceras = 'From: no-reply@global-systems.mx' . "\r\n".
                 'Reply-To: desarrollo@global-systems.mx' . "\r\n" .
                 'X-Mailer: PHP/' . phpversion();
 
