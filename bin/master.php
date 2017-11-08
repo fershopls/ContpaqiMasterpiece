@@ -15,7 +15,7 @@ foreach ($apps as $app_slug => $app_details)
 {
     $app_request_path = get_dir($app_slug, $settings);
 
-    if ($app_slug == 'LIR' && true)
+    if ($app_slug == 'LIR' && false)
         $app_config = $app_details['default'];
     else
         $app_config = $requestHandler->get($app_details['default'])->on($app_request_path);
