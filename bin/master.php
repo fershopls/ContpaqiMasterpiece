@@ -36,8 +36,8 @@ foreach ($apps as $app_slug => $app_details)
         $requestHandler->delete();
 
         // Send email..
-        echo "\n\n[MAIL] Sending mail to '{$app_config['email']}'.";
         if ($app_config['email'] != '') {
+            echo "\n\n[MAIL] Sending mail to '{$app_config['email']}'.";
             $asunto = 'Reporte "'.$app_config['filename'].'" Generado';
             $mensaje = "Su reporte \"{$app_config['filename']}\" se ha generado en \\\\192.168.2.200\\{$app_output_path}\\{$output_filename}.";
             $cabeceras = 'From: no-reply@gmail.com' . "\r\n".

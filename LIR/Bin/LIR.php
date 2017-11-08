@@ -214,7 +214,7 @@ class LIR extends ReporterInterface {
         echo "\n[DB] w_moves: {$db_worker_dic_mv_count}";
         echo "\n[CSV] Lines: ".(isset($csv_lines)?$csv_lines:"Line's bucle was never started.");
         echo "\n[CSV] Size: ".(file_exists($this->parameters['filename'])?round(filesize($this->parameters['filename'])/1000):"0")."KB";
-        echo "\n[CSV]".(file_exists($this->parameters['filename'])?'File created successfully':"File was not created.");
+        echo "\n[CSV] ".(file_exists($this->parameters['filename'])?'File created successfully':"[!] File was not created");
     }
 
     public function getAvailableDatabases ($parameters)
