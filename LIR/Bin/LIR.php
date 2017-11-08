@@ -50,11 +50,15 @@ class LIR extends ReporterInterface {
         $period_selector = new PeriodSelector();
         $period_selector->setDates($this->parameters['date_begin'], $this->parameters['date_end']);
         $db_period_selected = $period_selector->get($db_period_dic);
-        // print_r($db_period_selected); file_put_contents(MASTER_DIR . '/support/period.json', json_encode($db_period_selected, JSON_PRETTY_PRINT));
+        file_put_contents(MASTER_DIR . '/support/period.json', json_encode($db_period_selected, JSON_PRETTY_PRINT));
 
         // Solve Relationships
         $db_worker_status_dic = array();
         $db_worker_concept_dic = array();
+
+        // Counts
+        $db_worker_dic_count = 0;
+        $db_worker_dic_mv_count = 0;
 
         foreach ($db_worker_dic as $db_slug => $db_workers)
         {
@@ -86,6 +90,7 @@ class LIR extends ReporterInterface {
 
             foreach ($db_workers as $dbw_row)
             {
+                $db_worker_dic_count++;
                 // Skip worker if has `bajaimms  & `worker_down` option is not active
                 if ($this->parameters['options']['worker_down'] == false && $dbw_row['bajaimss'] == 1)
                     continue;
@@ -100,6 +105,7 @@ class LIR extends ReporterInterface {
                 $wmv_rows = $q->fetchAll();
                 foreach ($wmv_rows as $wmv_row)
                 {
+                    $db_worker_dic_mv_count++;
                     // Worker Movements
                     $_cpt_key = StringKey::get($db_concept_dic[$db_slug][$wmv_row['idconcepto']]['descripcion']);
                     $_cpt_type = $db_key_concept_dic[$_cpt_key]['tipoconcepto'];
@@ -139,6 +145,8 @@ class LIR extends ReporterInterface {
             {
                 foreach ($_db_worker as $worker_id => $_db_concept)
                 {
+                    // This is a new line
+                    $csv_lines = isset($csv_lines)?$csv_lines+1:1;
                     $_period_type_id = $db_period_dic[$db_slug][$period_id]['idtipoperiodo'];
                     $_period_type_key = StringKey::get($db_period_type_dic[$db_slug][$_period_type_id]['nombretipoperiodo']);
 
@@ -198,8 +206,15 @@ class LIR extends ReporterInterface {
             }
         }
 
-        file_put_contents($this->parameters['filename'], $this->createCsv($dh->getHeaders(), $csv_rows));
+        $csv_content = $this->createCsv($dh->getHeaders(), $csv_rows);
+        file_put_contents($this->parameters['filename'], $csv_content);
 
+        echo "\n";
+        echo "\n[DB] workers: {$db_worker_dic_count}";
+        echo "\n[DB] w_moves: {$db_worker_dic_mv_count}";
+        echo "\n[CSV] Lines: ".(isset($csv_lines)?$csv_lines:"Line's bucle was never started.");
+        echo "\n[CSV] Size: ".(file_exists($this->parameters['filename'])?round(filesize($this->parameters['filename'])/1000):"0")."KB";
+        echo "\n[CSV]".(file_exists($this->parameters['filename'])?'File created successfully':"File was not created.");
     }
 
     public function getAvailableDatabases ($parameters)

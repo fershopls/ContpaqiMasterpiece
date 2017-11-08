@@ -19,8 +19,9 @@ class PeriodSelector {
         // idperiodo, ejercicio, idtipoperiodo, numeroperiodo, fechainicio, fechafin
         $beg = $this->begin;
         $end = $this->end;
-        $format = 'Y-m-d H:i';
-        echo "[DATE] BEG:".date($format,$beg)."\n[DATE] END:".date($format,$end)."\n";
+        $format = 'Y-m-d';
+        echo "\n[DATES] ".date($format,$beg)." - ".date($format,$end)."\n";
+        $format = 'Ymd H:i'; // Required format for SQL
         $stack = array();
 
         foreach ($db_period_dic as $db_slug => $period)
@@ -47,10 +48,14 @@ class PeriodSelector {
 
             // Select for each db the first begin and the last end dates.
             $_keys = array_keys($stack[$db_slug]);
-            $stack[$db_slug] = array(
-                'begin' => isset($stack[$db_slug][$_keys[0]]['begin'])?$stack[$db_slug][$_keys[0]]['begin']:null,
-                'end' => isset($stack[$db_slug][$_keys[count($_keys)-1]]['end'])?$stack[$db_slug][$_keys[count($_keys)-1]]['end']:null,
-            );
+            if (count($_keys) >= 2)
+            {
+                $stack[$db_slug] = array(
+                    'begin' => isset($stack[$db_slug][$_keys[0]]['begin'])?$stack[$db_slug][$_keys[0]]['begin']:null,
+                    'end' => isset($stack[$db_slug][$_keys[count($_keys)-1]]['end'])?$stack[$db_slug][$_keys[count($_keys)-1]]['end']:null,
+                );
+            }
+            $stack[$db_slug] = array_merge([], ['begin' => null, 'end' => null], $stack[$db_slug]);
         }
         return $stack;
     }
