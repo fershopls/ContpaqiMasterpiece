@@ -30,6 +30,7 @@ class RequestsManager {
                 if (time() >= $file['assoc'][self::OPEN_MARK] + self::DEATH_TIME)
                 {
                     echo "\nThis file is dead ({$file['filepath']}).";
+                    unlink($file['filepath']);
                 }
                 echo "\nThis file was opened previously ({$file['filepath']}).";
             } else {

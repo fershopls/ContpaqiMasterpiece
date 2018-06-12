@@ -5,6 +5,16 @@ ContpaqiMasterpiece es un mini-framework escrito en PHP que facilita el acceso a
 Su función básica es realizar una misma consulta _(Query Statement)_ en una lista de bases de datos que contengan la misma estructura interna y devolver resultados _(rows)_ agrupados por base de datos.
 
 Los dos pilares que sostienen el framework son las clases ```Query``` y ```Manager```.
+## Config
+Para configurar el acceso a SQLSERVER crear el siguiente archivo dentro de la carpeta ```config/sqlsrv.php```.
+```php
+<?php
+return array(
+    'hosting' => 'YOUR_HOST\\YOUR_DATABASE',
+    'username' => '',
+    'password' => '',
+);
+```
 
 ## Query
 Toda clase tipo query se extiende de ```lib\Database\Query\QueryInterface``` y contiene dos métodos abstractos que deben ser definidos: ```getQuery()``` y ```handle()```.
